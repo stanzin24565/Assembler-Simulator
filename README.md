@@ -1,132 +1,183 @@
-RISC-V Instruction Encoder (Assembler Component)
-----Overview-----
+# ⚙️ RISC-V Instruction Encoder (Assembler)
 
-This project implements a basic RISC-V instruction encoder in Python.
-It converts supported RISC-V assembly instructions into their corresponding 32-bit binary machine code.
+> A Python-based assembler that translates a subset of RISC-V assembly instructions into 32-bit machine code by performing instruction encoding, register mapping, immediate handling, and label resolution.
 
-The encoder handles multiple instruction formats (R, I, S, B, J types), resolves register names, processes immediates, and supports label-based branching.
+---
 
-This code is part of a custom assembler / simulator pipeline.
+## 📌 Overview
 
-----Supported Instruction Set----
-R-Type Instructions
+The RISC-V Instruction Encoder is the assembler component of a custom RISC-V assembler–simulator pipeline. It reads assembly instructions, identifies their instruction formats, and generates corresponding 32-bit binary machine code following the RISC-V ISA specification.
 
-add
+The project supports multiple instruction formats, resolves symbolic labels for branch instructions, and performs binary encoding of registers, opcodes, function fields, and immediate values.
 
-sub
+---
 
-slt
+## ✨ Features
 
-srl
+- Encode RISC-V assembly instructions into machine code
+- Support for multiple instruction formats
+- Register name to register number mapping (`x0` – `x31`)
+- Automatic label resolution for branch instructions
+- Immediate value encoding and bit masking
+- Generates one 32-bit binary instruction per line
+- Modular and easy-to-extend implementation
 
-or
-I-Type Instructions
+---
 
-lw
+## 🛠 Supported Instruction Set
 
-addi
+### R-Type
+- `add`
+- `sub`
+- `slt`
+- `srl`
+- `or`
 
-jalr
+### I-Type
+- `lw`
+- `addi`
+- `jalr`
 
-S-Type Instructions
+### S-Type
+- `sw`
 
-sw
+### B-Type
+- `beq`
+- `bne`
+- `blt`
 
-B-Type Instructions
+### J-Type
+- `jal`
 
-beq
+---
 
-bne
+## 🛠 Tech Stack
 
-blt
+| Category | Technologies |
+|----------|--------------|
+| Language | Python |
+| Architecture | RISC-V ISA |
+| Concepts | Computer Organization, Instruction Encoding, Binary Manipulation |
 
-J-Type Instructions
+---
 
-jal
+## 🧠 Core Concepts Used
 
-----Key Features----
+- RISC-V Instruction Set Architecture (ISA)
+- Binary Instruction Encoding
+- Register Mapping
+- Immediate Encoding
+- PC-relative Branching
+- Label Resolution
+- Bit Manipulation
+- File Processing
 
- Register name to register number mapping (x0–x31)
+---
 
- Opcode, funct3, and funct7 encoding
+## 🏗 Encoding Workflow
 
- Label resolution for branch instructions
+```text
+Assembly Code
+       │
+       ▼
+Instruction Parser
+       │
+       ▼
+Instruction Format Detection
+       │
+       ▼
+Register & Immediate Encoding
+       │
+       ▼
+Label Resolution
+       │
+       ▼
+32-bit Binary Machine Code
+```
 
- Immediate value handling with proper bit masking
+---
 
- Outputs 32-bit binary instructions (one per line)
+## 📂 Project Structure
 
----- File Structure------
+```text
 .
-├── assembler.py        # Main encoder logic
-├── input.txt           # Input RISC-V assembly file
-├── output.txt          # Generated machine code
+├── assembler.py      # Main assembler implementation
+├── input.txt         # Input assembly program
+├── output.txt        # Generated machine code
 └── README.md
+```
 
--------How to Run------
-1️ Prepare Input File
+---
 
-Create an assembly file (input.txt) with valid RISC-V instructions.
+## 🚀 Getting Started
 
-Example:
+### Clone the Repository
 
-add x1,x2,x3
-addi x4,x1,10
-loop: beq x1,x2,loop
+```bash
+git clone https://github.com/yourusername/Assembler-Simulator.git
+```
 
-2️Update File Paths (Important)
+### Prepare Input
 
-In the Python script, update file paths to your system:
+Create an `input.txt` file containing valid RISC-V assembly instructions.
 
-with open("input.txt", "r") as input_file:
+```assembly
+add x1, x2, x3
+addi x4, x1, 10
 
+loop:
+beq x1, x2, loop
+```
 
-and
+### Run
 
-with open("output.txt", "w") as output_file:
+```bash
+python assembler.py
+```
 
-3️ Run the Program
-python3 assembler.py
+---
 
-4️ Output
+## 📄 Example Output
 
-Machine code is written to output.txt
-
-Each line contains a 32-bit binary instruction
-
-Example output:
-
+```text
 00000000001100010000000010110011
 00000000101000001000001010010011
+```
 
----- Encoding Logic (Brief)---
+Each line represents the binary encoding of the corresponding assembly instruction.
 
-Registers are mapped using register_dict
+---
 
-Opcodes are selected via valid_opcode
+## 📌 Design Decisions
 
-Instruction formats are identified dynamically
+- Registers are mapped using a dedicated lookup table.
+- Opcodes, `funct3`, and `funct7` fields follow the RISC-V ISA specification.
+- Branch labels are converted into PC-relative offsets.
+- Immediate values are masked and encoded according to instruction format.
+- Instruction formats are identified dynamically during parsing.
 
-Labels are converted to PC-relative offsets for branches
+---
 
-Immediate values are masked and split per RISC-V spec
+## ⚠️ Current Limitations
 
-----Assumptions & Limitations----
+- Supports a subset of the RISC-V ISA.
+- Input must follow valid assembly syntax.
+- Pseudo-instructions are not supported.
+- Error handling is minimal.
 
-Input must be syntactically correct
+---
 
-Limited subset of RISC-V instructions supported
+## 🚀 Future Improvements
 
-No pseudo-instruction expansion
+- Support for the complete RV32I instruction set
+- Pseudo-instruction expansion
+- Improved syntax validation
+- Better error reporting
+- Hexadecimal machine code output
+- Interactive assembler CLI
 
-Error handling is minimal (educational focus)
+---
 
------Learning Outcomes-----
+## 📚 What I Learned
 
-Understanding RISC-V instruction formats
-
-Binary encoding of assembly instructions
-
-PC-relative branching and label resolution
-
-Low-level architecture and ISA design
+This project deepened my understanding of how assembly language is translated into machine code. I gained hands-on experience with instruction encoding, bit-level manipulation, PC-relative addressing, label resolution, and the internal workings of the RISC-V Instruction Set Architecture.
